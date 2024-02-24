@@ -1,0 +1,56 @@
+<% layout("layouts/boilerplate") %>
+<body>
+    <div class="row mt-3">
+        <div class="col-8 offset-2">
+            <!-- row class includes all 12 rows but column include only 8 rows hence size is small for form offset two first two rows are empty it going to middle-->
+           
+    <h2>Create New!</h2>
+
+    <form action="/listings" method="post" novalidate class="needs-validation">
+        <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" name="listing[title]" placeholder="Add a catchy Title" class="form-control" required>
+            <div class="valid-feedback">Good Title</div>
+            <div class="invalid-feedback">Enter valid title!</div>
+        </div>
+<!-- due to class mb- bottom margin are 3rem for every div -->
+
+
+        <div class="mb-3"> 
+            <label for="description" class="form-label">Description</label>
+            <textarea name="listing[description]" id="description" cols="30" rows="10" placeholder="Enter description"
+                class="form-control" required></textarea>
+                <div class="invalid-feedback">Description should be valid!</div>
+        </div>
+        <div class="mb-3">
+            <label for="image" class="form-label">Image Link</label>
+            <input type="text" name="listing[image]" placeholder="Enter url/link" class="form-control">
+        </div>
+        <div class="row">
+            <!-- taking price and country in same row and it occupy 4:8 ratio in only medium and above medium-->
+        <div class="mb-3 col-md-4">
+            <label for="price" class="form-label">price</label>
+            <input type="text" name="listing[price]" placeholder="1200" class="form-control" required>
+            <div class="invalid-feedback">Price should be valid!</div>
+        </div>
+        <div class="mb-3 col-md-8">
+            <label for="country" class="form-label">Country</label>
+            <input type="text" name="listing[country]" placeholder="India" class="form-control" required>
+            <div class="invalid-feedback">Country should be valid!</div>
+        </div>
+    </div>
+        <div class="mb-3">
+            <label for="location" class="form-label">Location</label>
+            <input type="text" name="listing[location]" placeholder="Benglore,Chennai" class="form-control" required>
+            <div class="invalid-feedback">Location should be valid!</div>
+        </div>
+       
+
+ 
+        <button class="btn btn-dark add-btn mt-3">add</button>
+        <br><br>
+    </form>
+</div>
+</div>
+</body>
+

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WanderLust</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- it will applay where where boiler plate is used -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <!-- bootstrap css link included -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <!-- google fonts link -->
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Inconsolata:wght@900&family=Instrument+Sans&family=Nunito&family=Plus+Jakarta+Sans:wght@400;500;600&family=Roboto+Mono:wght@100;400&family=Roboto:wght@100&family=Sono:wght@500;700&family=Work+Sans:wght@300&family=Ysabeau:ital,wght@0,600;1,500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <%- include("../includes/navbar.ejs")  %>
+    <!-- <h2>Welcome in WanderLust!</h2> -->
+    <!-- body imported -->
+    <!-- we need ejs file body in every file hence it used once only here -->
+    <div class="container">
+        <!-- we need to display message on top of the body -->
+        <%- include("../includes/flash.ejs")  %>
+        <%- body %>
+    </div>
+    <%- include("../includes/footer.ejs")  %>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <!-- java script link -->
+    <!-- validation js -->
+    <script src="/js/script.js"></script>
+</body>
+</html>

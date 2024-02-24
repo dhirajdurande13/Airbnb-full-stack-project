@@ -1,0 +1,52 @@
+<% layout("layouts/boilerplate") %>
+<body>
+    <div class="row mt-3">
+        <div class="col-8 offset-2">
+           
+    <h3>Edit your Listings!</h3>
+    <!-- ?_method=put and npm i method-override for convert post requestto put -->
+    <form action="/listings/<%= Listing._id %>?_method=put" method="post" novalidate class="needs-validation">
+        <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" name="listing[title]" value="<%= Listing.title %>" class="form-control" required>
+            <div class="invalid-feedback">Enter valid title!</div>
+        </div>
+       <div class="mb-3">
+        <label for="description" class="form-label">description</label>
+        <textarea name="listing[description]"   class="form-control" required><%= Listing.description %></textarea>
+        <div class="invalid-feedback">Enter valid Description!</div>
+       </div>
+        <div mb-3>
+       <label for="image" class="form-label">Image</label>
+        <input type="text" name="listing[image]" value="<%= Listing.image %>" class="form-control" required>
+        <div class="invalid-feedback">Enter valid image link!</div>
+    </div>
+    <div class="row">
+         <div class="mb-3 col-md-4">
+            <label for="price" class="form-label">price</label>
+            <input type="number" name="listing[price]" value="<%= Listing.price %>" class="form-control" required>
+            <div class="invalid-feedback">price should be valid!</div>
+         </div>
+         <div class="mb-3 col-md-8">
+            <label for="country" class="form-label">country</label>
+            <input type="text" name="listing[country]" value="<%= Listing.country %>" class="form-control" required>
+            <div class="invalid-feedback">Country should be valid!</div>
+         </div>
+        </div>
+       <div class="mb3">
+        <label for="location" class="form-label">location</label>
+        <input type="text" name="listing[location]" value="<%= Listing.location %>" class="form-control" required>
+        <div class="invalid-feedback">location should be valid!</div>
+    </div>
+      
+       
+        
+        <button class="btn btn-dark edit-btn mt-3">Edit</button>
+        <!-- mt margin top 3 rem-->
+        <br>
+        <br>
+    </form>
+</div>
+</div>
+<script src="/js/script.js"></script>
+</body>
