@@ -96,3 +96,12 @@ body{
     padding-left: 0;
     padding-right: 0;
 }
+/* map styling */
+/* #map { position: absolute; top: 0; bottom: 0; width: 100%; }; */
+/* when we have to display map on whole page */
+
+
+#map{
+    height: 400px;
+    width: 80vh;
+}

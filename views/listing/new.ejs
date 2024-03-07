@@ -6,7 +6,8 @@
            
     <h2>Create New!</h2>
 
-    <form action="/listings" method="post" novalidate class="needs-validation">
+    <form action="/listings" method="post" novalidate class="needs-validation" enctype="multipart/form-data">
+        <!-- enctype multipart form data files input main lene ke liye -->
         <div class="mb-3">
             <label for="title" class="form-label">Title</label>
             <input type="text" name="listing[title]" placeholder="Add a catchy Title" class="form-control" required>
@@ -22,9 +23,13 @@
                 class="form-control" required></textarea>
                 <div class="invalid-feedback">Description should be valid!</div>
         </div>
-        <div class="mb-3">
+        <!-- <div class="mb-3">
             <label for="image" class="form-label">Image Link</label>
             <input type="text" name="listing[image]" placeholder="Enter url/link" class="form-control">
+        </div> -->
+        <div class="mb-3" >
+            <label for="image" class="form-label">Upload Listing Image</label>
+            <input type="file" name="listing[image]"  class="form-control" required>
         </div>
         <div class="row">
             <!-- taking price and country in same row and it occupy 4:8 ratio in only medium and above medium-->

@@ -5,7 +5,7 @@
            
     <h3>Edit your Listings!</h3>
     <!-- ?_method=put and npm i method-override for convert post requestto put -->
-    <form action="/listings/<%= Listing._id %>?_method=put" method="post" novalidate class="needs-validation">
+    <form action="/listings/<%= Listing._id %>?_method=put" method="post" novalidate class="needs-validation" enctype="multipart/form-data">
         <div class="mb-3">
             <label for="title" class="form-label">Title</label>
             <input type="text" name="listing[title]" value="<%= Listing.title %>" class="form-control" required>
@@ -16,10 +16,17 @@
         <textarea name="listing[description]"   class="form-control" required><%= Listing.description %></textarea>
         <div class="invalid-feedback">Enter valid Description!</div>
        </div>
+       <div mb-3>
+        Original listing image </br>
+        <img src="<%= originalImageUrl %>" alt=""> 
+ 
+     </div>
+
         <div mb-3>
-       <label for="image" class="form-label">Image</label>
-        <input type="text" name="listing[image]" value="<%= Listing.image %>" class="form-control" required>
-        <div class="invalid-feedback">Enter valid image link!</div>
+            <br>
+       <label for="image" class="form-label">Upload new image</label>
+        <input type="file" name="listing[image]" value="<%= Listing.image %>" class="form-control">
+
     </div>
     <div class="row">
          <div class="mb-3 col-md-4">

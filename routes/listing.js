@@ -5,116 +5,60 @@ const ExpressError = require("../utils/ExpressError.js");
 const { listingSchema, reviewSchema } = require("../schema.js");
 // require listing
 const listing = require("../models/listing.js")//..because we are in parent directory
+// requiring looged in fxn'
+const {isLoggedin}=require("../middleware.js")
+const {isOwner,validateListing}=require("../middleware.js")
+const multer  = require('multer')
+// requiring details from cloud config.js
+const {storage}=require("../cloudConfig.js")
+// const upload = multer({ dest: 'uploads/' })//saving destination is uploads multer will create automatically folder name uploads
+const upload = multer({ storage })//saving in cloudinary storage
 
-
-
+const listingController=require("../controllers/listings.js")
 // defining validate function here
-const validateListing = (req, res, next) => {
-   let { error } = listingSchema.validate(req.body);
-   //  console.log(result);
-   if (error) {
-      let errMsg = error.details.map((el) => el.message).join(",");//if in some cases error details or multiple errors are occured then for bundling the function of all errors in one errMsg
-      throw new ExpressError(400, errMsg);//if error occured
-   } else {
-      next();
-   }
-
-}
+// code of validateListing is shifted to middlware
 // arranging all listing routes
 // index route to show data
-router.get("/", wrapAsync(async (req, res) => {
-   const allListings = await listing.find({});
-   res.render("./listing/index.ejs", { allListings });
-   //  const  allListings = await listing.find({})
-   //  .then((res)=>{
-   //     res.render("/listing/index.ejs",{ allListings });
-   //     // console.log(res)
-   //     // res.send(res);
-   // }).catch((err)=>{
-   //     console.log("error: "+err);
-   // })
-}))
+// shifting code to controller
+
+router.route("/")
+        .get( wrapAsync(listingController.index))//no need to define path everytime in get post request
+        .post(isLoggedin,upload.single('listing[image]'), validateListing, wrapAsync(listingController.createListing))
+        // .post(upload.single('listing[image]'),(req,res)=>{//only for checking which data is sended for file
+        //     res.send(req.file);
+        //     // upload.single middelware single image ko uplads folder main save karegi 
+        // })
+// combining same path requests /
+
 // create new route :if new is below id route then it understand new as id and search
-router.get("/new", (req, res) => {
-   res.render("./listing/new.ejs");
-})
+router.get("/new",isLoggedin,listingController.renderNewForm)//agar ye niche rahega toh new/:id ki traha treat kiya jayega
+router.route("/:id")
+        .get(wrapAsync(listingController.showListings))
+        .put(isLoggedin,isOwner,upload.single('listing[image]'),validateListing, wrapAsync(listingController.updateListing))
+        .delete(isLoggedin,isOwner, wrapAsync(listingController.destroyListing))
+// code shifted in routeer.route
+// router.get("/", wrapAsync(listingController.index))
+// passing index fxn for controller
+
 
 // adding information in new route
 // passing validateListing as a middleware
-router.post("/", validateListing, wrapAsync(async (req, res, next) => {
-   // let{title,description,image,price,country,location}=req.body;
-   // insted of taking one one variable direct stored in listing and take.
-   // let listing=req.body.listing;
-   // console.log(listing);
 
-
-   // thise is one way of checking schema validations
-   // if(!req.body.listing)
-   // {
-   //     throw new ExpressError(400,"Send Valid data for Listing!");//400 is bad request if empty listing is sending from hopscotch then we have to handle
-   // }
-   // sending to schema validations
-
-   const newListing = new listing(req.body.listing);
-   // if(!newListing.title)
-   // {
-   //     throw new ExpressError(400,"Title is missing!");
-   // }
-   // if(!newListing.description)
-   // {
-   //     throw new ExpressError(400,"Description is missing!");
-   // }
-   // if(!newListing.location)
-   // {
-   //     throw new ExpressError(400,"Location is missing!");
-   // }
-
-
-
-   await newListing.save();
-   req.flash("success", "New listing created!");
-   res.redirect("/listings");
-
-}))
+// code shifted in routeer.route
+// router.post("/", validateListing, wrapAsync(listingController.createListing))
 // show route for particuler id:
-router.get("/:id", wrapAsync(async (req, res) => {
-   let { id } = req.params;
-   const Listing = await listing.findById(id).populate("reviews");
-   //  find by id ke bad sirf id dikha deta hai terminal par .populate karne ke baad puri listing aa jati hai
-   if (!Listing) {
-      req.flash("error", "Listing you requested for does not exists!")
-      res.redirect("/listings");
-   }
-   res.render("./listing/show.ejs", { Listing });
-}))
+// code is in router.route
+// router.get("/:id", wrapAsync(listingController.showListings))
 
 // edit route
-router.get("/:id/edit", wrapAsync(async (req, res) => {
-   let { id } = req.params;
-   const Listing = await listing.findById(id);
-   if (!Listing) {
-      req.flash("error", "Listing you requested for does not exists!")
-      res.redirect("/listings");
-   }
-   res.render("./listing/edit.ejs", { Listing });
-}))
+router.get("/:id/edit",isLoggedin,isOwner, wrapAsync(listingController.renderEditForm))
 // update route
 // validate listing passing as a middleware for checking validate schema
-router.put("/:id", validateListing, wrapAsync(async (req, res) => {
-   let { id } = req.params;
-   // ... means actually req.body.listing is java script object we convert it into induvidal by deconstructing
-   await listing.findByIdAndUpdate(id, { ...req.body.listing });
-   req.flash("success", "Listing Updated!")
-   res.redirect(`/listings/${id}`);
-}))
+// code is in router.route
+// router.put("/:id", validateListing,isLoggedin,isOwner, wrapAsync(listingController.updateListing))
 
 // delete route
-router.delete("/:id", wrapAsync(async (req, res) => {
-   let { id } = req.params;
-   let deleteListing = await listing.findByIdAndDelete(id);
-   //    console.log(deleteListing);
-   req.flash("success", "Listing deleted successfully!");
-   res.redirect("/listings");
-}))
+// code is in router.route
+// router.delete("/:id",isLoggedin,isOwner, wrapAsync(listingController.destroyListing))
 
 module.exports = router;
