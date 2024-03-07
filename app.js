@@ -11,7 +11,7 @@ if(process.env.NODE_ENV !="production")
 const express=require("express");
 const app=express();
 const mongoose=require("mongoose");
-let port=8080;
+let port=8082;
 // require listing
 const listing=require("./models/listing.js")
 // installing ejs-mate
